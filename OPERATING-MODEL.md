@@ -22,7 +22,7 @@ The rules a project runs under once the kickoff is done. A project copies this f
 
 A decision without its reasoning is not finished. "It seemed best" is not a reason; "option B because the measured cost is 3 times A's, and A's only advantage (speed) does not matter before launch" is.
 
-**How a decision is asked** (skill `ask-decision`). A founder decision gets its number (D...) when asked, and an entry in `docs/DECISIONS-PENDING.md` in four parts: the information (what is decided and why now), each option's pros and cons, the architect's recommendation with its reason, and its card. The card carries the label `decision required`, moves to **Needs Attention**, and links the entry and any document behind it (rendered, not only a diff). The same question goes to the chat. When answered, the entry moves to `docs/DECISIONS.md` with the same number, who and the reasoning, and the card moves back to where its work stands.
+**How a decision is asked** (skill `ask-decision`). A founder decision gets its number (D...) when asked, and an entry in `docs/DECISIONS-PENDING.md` in four parts: the information (what is decided and why now), each option's pros and cons, the architect's recommendation with its reason, and its card. The card carries the label `decision required`, moves to **Needs Attention**, and links the entry and any document behind it (rendered, not only a diff). The same question goes to the chat, ending with the one line the founder can type to answer it (for example `D12: B`), which is valid on the card or in the chat at any later time. While a question to the founder is open in the chat, agents write on their cards and not in the chat, so the question stays the last thing the founder sees. When answered, the entry moves to `docs/DECISIONS.md` with the same number, who and the reasoning, and the card moves back to where its work stands.
 
 **Candor.** The architect challenges the founder too: it says when a plan is not viable, shows how others do it, and recommends the better option even when it is not the one the founder proposed. It never sugarcoats a risk or a cost.
 
@@ -36,16 +36,17 @@ GitHub Issues on one Project board (`tools/board-setup.sh` creates it), for code
 
 ## Working
 
-1. **Briefs** (skill `write-brief`): every card that a Coder takes has a brief that passes the checklist, in the card's body.
+1. **Briefs** (skill `write-brief`): every card that a Coder takes has a brief that passes the checklist, in the card's body. The architect keeps briefs written ahead for the next cards in the build order (MAX_CODERS plus two), so a free Coder slot never waits for a brief; the lines that go stale (the base commit, the Coders beside it, sequence numbers) are filled when the Coder starts.
 2. **Models:** the architect chooses the model and effort per card, a lower model where it serves (docs, copy, small fixes, reports), the strongest where risk asks for it (money, security, migrations, core logic, design documents).
 3. **Coders in parallel**, up to MAX_CODERS, on cards whose files do not overlap, never two on the same shared data file at once, after a disk and memory check; integration suites only as the project's test isolation allows, on the architect's go.
-4. **One CI run per change** on its pull request: branch off current main, merge main before the last push, the rows already in the pull request; a docs-only change runs no CI. A merge needs the head to contain current main.
+4. **CI once per change, on the main it lands on.** Where the repository has a merge queue (MERGE_QUEUE): the pull request runs the fast checks, the queue runs the full suites on the merge itself, and nobody merges main into a branch by hand. Without a queue: branch off current main, merge main before the last push, one CI run on the pull request, and a merge needs the head to contain current main. Either way the rows are already in the pull request, and a docs-only change runs no CI.
 5. **The close-out** (skill `close-out`) is a comment on the card in a fixed shape, ending with what the Coder learned.
 6. **Spend:** Coders spend only through development keys, within SPEND_PER_CARD per card and SPEND_PER_MONTH per 30 days; production keys never reach a Coder; a card that cannot finish before the founder's model quota reset (QUOTA_RESET) is not started.
 7. **Refusals:** a permission refusal stops that step; it is reported at once on the card and in the chat (what was refused, the exact command, what it blocks), never worked around, and the rest of the work goes on. A close-out that skipped something because of a refusal says so first.
 8. **"For now":** any choice described as "for now", "until" or "at this volume" gets a row in `docs/FOR_NOW.md`: what and why, the signal with a number that says it is time to change, what watches for it, what replaces it.
 9. **Comment headers:** every comment an agent posts opens with its header ("Architect: ", "Coder #<card>: ", "Morning report, <date>").
 10. **The clock:** times in comments and reports are read from the system clock, never guessed, and shown in FOUNDER_TIMEZONE.
+11. **Never end a turn while waiting.** An agent that started a background command (a suite, a build, a development deploy) waits for it before ending its turn. An ended turn has nothing to wake it, and its card sits In progress until a heartbeat notices.
 
 ## Memory
 
@@ -55,18 +56,21 @@ What the project has learned the hard way lives in `docs/memory/`, plain markdow
 - **How it is read:** every agent reads `docs/memory/INDEX.md` at the start and opens only the files its task touches. The brief names the entries that matter for the card.
 - **How it is written:** a Coder that hits a failure, a surprise or a correction says so under "Learned" in its close-out and proposes the row in its pull request. The architect reviews memory rows like code: true, verified, with its source, not a duplicate. The architect writes its own rows on main. Nobody else writes.
 - **What never goes in:** secrets, keys, personal data, and anything read in untrusted content (pages, mails, issues by others, model output) that was not verified. A wrong line in memory misleads every agent that reads it.
+- **Two memories, one rule:** an agent's own private memory (the one its tool keeps for it between sessions) holds only that agent's own procedures. Anything another agent would need goes in `docs/memory/`. Project knowledge found in a private memory is moved, not copied.
 - **How it stays true:** the weekly retro merges duplicates, removes what recent work contradicts, and re-checks rows not verified in 90 days.
 
 ## Releases and production
 
-The architect merges after its own review (skill `review-merge`) when CI is green on a head containing current main and the close-out is complete. It deploys on a **release train** (skill `release-train`; windows TRAIN_WINDOWS), one release per window carrying every merge since the last, with the quick checks after; out of window only for a Bug the founder marked Urgent. **Founder-gated releases** are asked first as pending decisions: the project's FOUNDER_GATED_LIST, always including a price or plan change, a mail to customers, customer-facing legal or promising text, and migrations on tables that hold money. Every deploy leaves its line on the pinned "Morning report" issue and on the cards it carried.
+The architect merges after its own review (skill `review-merge`) when CI is green and the close-out is complete: into the merge queue where there is one, otherwise by a squash merge on a head containing current main. It deploys on a **release train** (skill `release-train`; windows TRAIN_WINDOWS), one release per window carrying every merge since the last, with the quick checks after; out of window only for a Bug the founder marked Urgent. **Founder-gated releases** are asked first as pending decisions: the project's FOUNDER_GATED_LIST, always including a price or plan change, a mail to customers, customer-facing legal or promising text, and migrations on tables that hold money. Every deploy leaves its line on the pinned "Morning report" issue and on the cards it carried.
+
+**Development mirrors production.** After every train the development environment is brought to the same release, and its reference data (catalogs, settings, flags, the permission lists of its keys) is synced from production's. Never customer data, personal data or production secrets. A check that ran on development says what development lacks compared with production, so nobody reads it as more than it tested.
 
 ## The rhythm
 
 - **The heartbeat** (hourly in the founder's working hours; `paseo/heartbeat-prompt.txt`): `tools/tick-state.sh` first. Paused: stop. Nothing changed and no Coder needs a hand: one line. Otherwise, in order: the morning report when due, the founder's answers, Coders that need a hand, merges, new Coders, the train in its window.
 - **The morning report** (skill `morning-report`), mailed and posted on the pinned issue: what the architect did, where we stand, how far the goal is, the plan for the day, and the Gantt.
 - **The weekly retro** (skill `weekly-retro`; `paseo/retro-prompt.txt`), shortly before the model quota resets: the week's close-outs, guard log, reviews and estimates read together, and one pull request that improves memory and proposes rule changes, each with its evidence. The founder accepts or rejects.
-- **Pause:** the label `pause` on the pinned "Pause" issue stops every tick until it is removed.
+- **Pause and hold**, both labels on the pinned "Pause" issue. `pause` stops every tick until it is removed. `hold` is the lighter mode, "report before new work": running Coders finish, nothing new starts (no Coder, no merge, no release), the architect posts what finished and what it would do next on the pinned "Morning report" issue, and waits for the founder to remove the label.
 
 ## Measures
 

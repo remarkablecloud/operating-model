@@ -96,7 +96,7 @@ The **founder** sets the goal and the priorities, answers decisions, and does th
 
 ## Where it stands
 
-Version 1.0.0. The rules and templates come from daily use on our own products. The planner, the Gantt and the Coder guard are covered by the tests in `tools/tests/`. The tools that talk to GitHub (`board-setup.sh`, `tick-state.sh`, `status.sh`, `fetch_cards.py`) have been rewritten to be project-neutral and should be watched on a first run. `tools/README.md` says exactly what is tested.
+Version 1.1.0. The rules and templates come from daily use on our own products. The planner, the Gantt and the Coder guard are covered by the tests in `tools/tests/`. The tools that talk to GitHub (`board-setup.sh`, `tick-state.sh`, `status.sh`, `fetch_cards.py`) have been rewritten to be project-neutral and should be watched on a first run. `tools/README.md` says exactly what is tested.
 
 ## Versions and upgrades
 

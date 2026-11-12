@@ -6,6 +6,10 @@ description: Coders. Use when the pull request is open and the card's work is fi
 
 The last thing a Coder does: one comment on the card in this fixed shape, opening with "Coder #<card>: close-out". The architect merges only on a complete close-out. If a refusal made you skip something, say so in the first line.
 
+## Before you write it
+
+Nothing you started is still running. A background suite, build or deploy that has not finished is not a result: wait for it, read its exit code, then close out. If you end your turn while waiting, nothing wakes you and the card stalls.
+
 ## The shape
 
 1. **Items:** each item of the brief as *exercised* (you ran it and saw it work, say how) or *code-complete* (written, not run, say why).

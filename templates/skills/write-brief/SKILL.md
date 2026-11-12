@@ -9,7 +9,7 @@ A brief is what a Coder reads before a card: the model and effort, the scope, th
 ## The checklist
 
 1. **Numbers:** any shared sequence number the card needs (a migration, a build note), pre-assigned and unused on main and on every open branch.
-2. **CI:** whether the pull request runs CI (a docs-only change runs none).
+2. **CI:** whether the pull request runs CI (a docs-only change runs none), and whether the merge goes through the merge queue.
 3. **The integration gate:** integration suites run only on the architect's go, at most as many at once as the suites' isolation allows.
 4. **The smoke:** who runs the live smoke (the Coder or the architect), the exact command, the spend ceiling.
 5. **Dependencies:** the card's Blocked by and Depends on, and the Coders running beside it with the files to keep out of.
@@ -31,7 +31,11 @@ A brief is what a Coder reads before a card: the model and effort, the scope, th
 
 **Beside you:** <other Coders' cards and the files that are theirs>.
 
-**Finish:** suites and lint, merge main, one push, the pull request with the template filled, the close-out (skill `close-out`), end the turn.
+**Finish:** suites and lint, merge main unless there is a merge queue, one push, the pull request with the template filled, the close-out (skill `close-out`), end the turn.
+
+## Briefs ahead
+
+A free Coder slot should never wait for a brief. Keep briefs written for the next cards in the build order, MAX_CODERS plus two, in each card's body with the first line "Brief (draft)". The morning report and any tick with all slots busy are the times to write them. A draft holds everything that does not go stale. When the Coder is about to start, fill the lines that do (the base commit, the Coders beside it and their files, the sequence numbers), re-check the dependencies, remove "(draft)", and move the card to Ready.
 
 ## Choosing the model
 

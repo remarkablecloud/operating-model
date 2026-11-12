@@ -4,7 +4,7 @@ description: Architect only. Use when a pull request has green CI and a close-ou
 ---
 # Review and merge
 
-Merge only when all of these hold: CI is green on a head that contains current main; the close-out is complete (skill `close-out` gives its shape); your review below passes. Anything else goes back to the Coder as a comment on the pull request with the exact item.
+Merge only when all of these hold: CI is green (without a merge queue, on a head that contains current main); the close-out is complete (skill `close-out` gives its shape); your review below passes. Anything else goes back to the Coder as a comment on the pull request with the exact item.
 
 ## The review
 
@@ -19,7 +19,7 @@ Merge only when all of these hold: CI is green on a head that contains current m
 
 ## The merge
 
-1. Squash-merge with "fixes #<card>" so the board moves the card to Done. Never move a card to Done by hand.
+1. Merge with "fixes #<card>" so the board moves the card to Done: add the pull request to the merge queue where there is one, otherwise squash-merge. If the queue rejects it, the failure goes back to the Coder like any failed check. Never move a card to Done by hand.
 2. Confirm the card went Done; set Actual from the close-out.
 3. Turn the close-out's open items into cards, and its founder's steps into a Needs Attention card.
 4. Add any new memory file to `docs/memory/INDEX.md`.

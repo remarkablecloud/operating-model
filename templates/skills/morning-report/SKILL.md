@@ -13,7 +13,7 @@ Set Estimate on every new or changed card. Then `python3 tools/fetch_cards.py &&
 ## 2. Write it, in four parts
 
 - **What I did since the last report:** merges, deploys, decisions taken (with D numbers, and for my own, one line each so the founder can reverse them), each with its card.
-- **Where we stand:** Coders running and their cards; the Needs Attention cards, oldest first; production status; spend against the ceilings; model cost per Coder session; CI minutes against the allowance; anything that broke.
+- **Where we stand:** Coders running and their cards; the Needs Attention cards, oldest first; production status; what development lacks compared with production; spend against the ceilings; model cost per Coder session; CI minutes against the allowance; anything that broke.
 - **How far the goal is:** the current milestone's cards done out of the total, its blockers, the hours left at the Estimate fields; estimate against actual so far; the measures (pull requests sent back, refusals, Coders stuck twice).
 - **The plan for the day:** what starts, what ships on each train, what waits on the founder.
 
@@ -28,5 +28,9 @@ Numbers are read, not remembered: from the board, the CI, the billing pages, the
 1. Post the text with the Mermaid block as a comment on the pinned "Morning report" issue, headed "Morning report, <date>".
 2. Mail it as HTML with the image inline to the founder, subject "{{PROJECT}} morning report, <date>".
 3. If the mail fails, say so in one line on the issue and in the chat; the posted report stands.
+
+## 5. Briefs ahead
+
+Before ending, write draft briefs for the next cards in the build order until MAX_CODERS plus two are waiting (skill `write-brief`, "Briefs ahead").
 
 Lite profile: skip the re-plan, the Gantt and the mail unless the project uses them; post a short note only on days with activity.

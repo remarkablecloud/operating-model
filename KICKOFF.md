@@ -8,6 +8,7 @@ When the founder says "go" on a design package (`design/DESIGN-PACKAGE.md` fille
 - **Identities:** a GitHub App or bot account for the agents, so nothing an agent posts carries the founder's login.
 - **The Coder's user:** a Unix user on the build machine with no production keys, with the guard installed (`tools/coder-guard.sh` and its configuration).
 - **The architect's production access** (when there is a production): a restricted deploy user that can run the release script and the read-only checks, nothing else.
+- **The merge queue** on main, where the GitHub plan offers it, with CI set to run on the queue's merges (the `merge_group` event). Record yes or no as MERGE_QUEUE in `CLAUDE.md`.
 - **The mail route** for the morning report (Full profile).
 
 ## The steps

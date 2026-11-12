@@ -9,7 +9,8 @@
 # git pull. Needs gh (with the project scope), jq and git.
 #
 # Output fields:
-#   paused            the pinned "Pause" issue carries the label "pause"
+#   mode              "run", "hold" or "pause", from the labels on the pinned "Pause" issue
+#   paused            true when mode is "pause" (nothing else is fetched)
 #   report_due        no "Morning report" comment dated today (founder's time zone) and the report hour has come
 #   needs_attention   the founder's cards, each with founder_answered (the last comment's author is the founder)
 #   ready, in_progress, in_review, backlog_count
@@ -29,13 +30,13 @@ founder=$(c .founder_login); tz=$(c '.founder_timezone // "UTC"'); report_hour=$
 pause_issue=$(c '.pause_issue // 0'); report_issue=$(c '.report_issue // 0'); status_url=$(c '.status_url // ""')
 
 # Pause first: when paused, nothing else is fetched.
-paused=false
-if [ "$pause_issue" != 0 ] &&
-	gh issue view "$pause_issue" --repo "$default_repo" --json labels --jq '[.labels[].name] | index("pause") != null' | grep -q true; then
-	paused=true
+mode=run
+if [ "$pause_issue" != 0 ]; then
+	mode=$(gh issue view "$pause_issue" --repo "$default_repo" --json labels \
+		--jq '[.labels[].name] as $l | if ($l | index("pause")) != null then "pause" elif ($l | index("hold")) != null then "hold" else "run" end')
 fi
-if [ "$paused" = true ]; then
-	jq -n '{paused: true}'
+if [ "$mode" = pause ]; then
+	jq -n '{mode: "pause", paused: true}'
 	exit 0
 fi
 
@@ -105,8 +106,8 @@ while read -r w; do
 done < <(c '(.train_windows_utc // [])[]')
 
 state=$(jq -n --argjson report_due "$report_due" --argjson items "$items" --argjson needs "$needs" --argjson prs "$prs" \
-	--argjson production "$production" --argjson window_open "$window_open" --arg last_tag "$last_tag" --argjson since "$since" '
-	{paused: false, report_due: $report_due,
+	--arg mode "$mode" --argjson production "$production" --argjson window_open "$window_open" --arg last_tag "$last_tag" --argjson since "$since" '
+	{mode: $mode, paused: false, report_due: $report_due,
 	 needs_attention: $needs,
 	 ready: [$items[] | select(.status == "Ready") | {n, repo, title, priority}],
 	 in_progress: [$items[] | select(.status == "In progress") | {n, repo, title, agent}],

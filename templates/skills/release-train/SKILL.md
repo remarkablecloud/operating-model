@@ -20,6 +20,7 @@ Follow the project's runbook (`docs/RUNBOOK.md`, "Deploy a release") exactly: ta
 ## After
 
 1. The quick checks pass, or the release is rolled back by the runbook and a Bug card marked Urgent says what failed.
-2. Leave the deploy line (the tag, the time read from the clock, what it carried, the checks) on the pinned "Morning report" issue and on each card carried.
+2. Bring development level with production: the same release, and its reference data (catalogs, settings, flags, the permission lists of its keys) synced from production's. Never customer data, personal data or production secrets. If the sync cannot run, say what development now lacks in the deploy line.
+3. Leave the deploy line (the tag, the time read from the clock, what it carried, the checks) on the pinned "Morning report" issue and on each card carried.
 
 A refusal from a tool or a host is reported, never worked around.

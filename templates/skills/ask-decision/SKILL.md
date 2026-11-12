@@ -20,8 +20,9 @@ In `docs/DECISIONS.md`, next D number: who (Architect), the options weighed (at 
    - **Recommendation:** the one you would take and why. Say so even when it is not what the founder proposed; never sugarcoat a risk or a cost.
    - **Card:** the card it blocks. A decision with no card gets a "Decision:" issue.
 2. Comment the same four parts on the card, add the label `decision required`, move the card to Needs Attention, and link the entry and any document behind it, rendered (a file view or a preview), not only a diff.
-3. Ask the same numbered question in the chat.
-4. Go on with everything the decision does not block.
+3. Ask the same numbered question in the chat. End it with the one line the founder can type to answer, one per option (for example `D12: A` or `D12: B`). That line is a valid answer on the card or in the chat at any later time, even if the question has scrolled away.
+4. Keep the question visible: while it is open, post progress on cards, not in the chat. If you must end a turn in the chat, end it by repeating the open questions' numbers and their typed answers in one line.
+5. Go on with everything the decision does not block.
 
 When showing a template or an example of something alarming (an alert, a mail), say it is a template in the first words.
 

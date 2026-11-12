@@ -5,7 +5,7 @@ Copied into a project's `tools/` at kickoff. They read `tools/board.json` (writt
 | Tool | What it does |
 |---|---|
 | `board-setup.sh` | Once, at kickoff: creates the board, its fields (Status with Needs Attention first, Priority, Size, Estimate, Actual, Start date, Target date, Agent), the labels and the pinned "Morning report" and "Pause" issues; writes `board.json`; prints the steps GitHub only allows by hand (workflows, the Roadmap view). |
-| `tick-state.sh` | Every heartbeat: one small JSON with the pause flag, whether the morning report is due, the founder's cards and whether each was answered, Ready and running cards, pull requests with their checks, production, the release window, and `changed` (false when nothing moved since the last tick). |
+| `tick-state.sh` | Every heartbeat: one small JSON with the mode (run, hold or pause), whether the morning report is due, the founder's cards and whether each was answered, Ready and running cards, pull requests with their checks, production, the release window, and `changed` (false when nothing moved since the last tick). |
 | `status.sh` | Moves one card's Status. Refuses Done: the merge does that. |
 | `fetch_cards.py` | Every open card with its fields and body, to `.work/cards.json`. |
 | `plan.py` | Start and Target dates from Priority, the estimates, the dependencies and the Coders that can run (`lanes` and `hours_per_day` in `board.json`). `--apply` writes only the fields that changed, paced. |

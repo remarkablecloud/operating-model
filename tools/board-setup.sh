@@ -51,6 +51,7 @@ label() { gh label create "$1" --repo "$repo" --color "$2" --description "$3" --
 label "decision required" D93F0B "Waits on a founder decision"
 label marketing C5DEF5 "Marketing, content or business work, off the board"
 label pause B60205 "On the Pause issue: stops every heartbeat"
+label hold FBCA04 "On the Pause issue: finish what runs, report, start nothing new"
 label operating-model 5319E7 "A change proposed for the operating model itself"
 label bug D73A4A "Something is broken"
 label feature A2EEEF "Something new for customers"
@@ -58,7 +59,7 @@ label task EDEDED "Operations, research or a decision"
 
 issue() { gh issue create --repo "$repo" --title "$1" --body "$2" | sed 's#.*/##'; }
 report_issue=$(issue "Morning report" "The architect posts the morning report and every deploy line here, one comment each.")
-pause_issue=$(issue "Pause" "Add the label \`pause\` to this issue to stop every heartbeat. Remove it to resume.")
+pause_issue=$(issue "Pause" "Add the label \`pause\` to this issue to stop every heartbeat, or \`hold\` to let running work finish, get a report and start nothing new. Remove the label to resume.")
 gh issue pin "$report_issue" --repo "$repo" >/dev/null 2>&1 || warn "pin issue #$report_issue (Morning report)"
 gh issue pin "$pause_issue" --repo "$repo" >/dev/null 2>&1 || warn "pin issue #$pause_issue (Pause)"
 
