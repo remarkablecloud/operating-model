@@ -104,6 +104,10 @@ Version 1.0.0. The rules and templates come from daily use on our own products. 
 
 When a project's weekly retro finds a rule that should change for every project, it opens a card labeled `operating-model`. The change is made here, with its reason in `LESSONS.md` and a line in the changelog.
 
+## License
+
+MIT, see `LICENSE`. Copyright (c) 2026 Things & Stuff LLC. You may use, change and share everything here, including commercially, as long as the license notice stays with your copies. The names and logos of RemarkableCloud, Zabio and Convertika are not covered by the license.
+
 ## Credits
 
 Written and maintained by Guillermo Calvo for Things & Stuff LLC, the company behind [RemarkableCloud.com](https://remarkablecloud.com), [Zabio.ai](https://zabio.ai) and [Convertika.com](https://convertika.com).
