@@ -1,0 +1,43 @@
+name: Bug
+description: Something in {{PROJECT}} is broken
+title: "Bug: "
+labels: ["bug"]
+projects: ["{{OWNER}}/{{BOARD_NUMBER}}"]
+body:
+  - type: textarea
+    id: dependencies
+    attributes:
+      label: Dependencies
+      description: "Blocked by (cannot start until these are done), Depends on (can be built in parallel, cannot ship before these), Blocks. Card numbers, or none. The architect also sets GitHub's own issue dependencies."
+      value: |
+        Blocked by: none
+        Depends on: none
+    validations:
+      required: true
+  - type: input
+    id: estimate
+    attributes:
+      label: Estimate
+      description: "Session hours for one Coder (the architect sets it if left blank)."
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you saw, and what you expected instead.
+    validations:
+      required: true
+  - type: textarea
+    id: again
+    attributes:
+      label: How to see it again
+      description: The steps, a request or call id, and the time in UTC.
+  - type: dropdown
+    id: impact
+    attributes:
+      label: Who is affected
+      options:
+        - Customers, right now
+        - Customers, possibly
+        - Internal only
+    validations:
+      required: true

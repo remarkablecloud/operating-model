@@ -1,0 +1,37 @@
+# Configuration of the Coder guard (coder-guard.sh). Copy to
+# /etc/coder-guard.conf, owned by root, mode 644, and fill it for the project.
+# It is sourced by bash: values are extended regular expressions (grep -E).
+# An empty value turns that rule off.
+
+# Where every decision is logged, one JSON line each (the retro reads it).
+GUARD_LOG=/var/log/coder-guard/events.jsonl
+
+# Production host names. Reading there over ssh is allowed; writing is refused.
+PROD_HOSTS_RE='(app|db|mon)-[0-9]+\.example\.com'
+
+# Commands refused wherever they appear: the production deploy.
+DEPLOY_RE='deploy-production'
+
+# The release script: refused when it is run, not when it is only named
+# (a branch, git add, an editor).
+RELEASE_SCRIPT_RE='release-train'
+
+# Release tags.
+RELEASE_TAG_RE='git +tag +(-[a-z] +)*v[0-9]'
+
+# Files a Coder never reads or writes (a path, as the Read, Edit and Write tools see it).
+SECRET_PATHS_RE='^/etc/example/|/secrets?/|\.pem$|\.key$|(^|/)\.env(\.|$)'
+
+# The same files as they appear inside a shell command (not anchored).
+SECRET_CMD_RE='/etc/example/|/secrets?/|\.pem( |$)|\.env( |$)'
+
+# Variables that carry keys: never set on a command line.
+KEY_VARS_RE='(EXAMPLE_[A-Z0-9_]*KEY[A-Z0-9_]*|[A-Z0-9_]*_SECRET|[A-Z0-9_]*_KEY_FILE)'
+
+# Files that are the architect's: a Coder may read them, never write them.
+ARCHITECT_FILES_RE='/docs/DECISIONS-PENDING\.md$|/docs/OPERATING-MODEL\.md$|/docs/memory/INDEX\.md$'
+
+# Project-specific commands, each "regex::reason".
+EXTRA_REFUSE=(
+  # 'example-admin +[^;&|]*--apply::admin change on a database'
+)

@@ -1,0 +1,16 @@
+{
+  "project": "example",
+  "owner": "your-org-or-user",
+  "project_number": 1,
+  "repos": ["your-org-or-user/example"],
+  "default_repo": "your-org-or-user/example",
+  "report_issue": 1,
+  "pause_issue": 2,
+  "founder_login": "founder-github-login",
+  "founder_timezone": "UTC",
+  "report_hour": 7,
+  "lanes": 2,
+  "hours_per_day": 6,
+  "train_windows_utc": ["14:00", "20:00"],
+  "status_url": ""
+}
