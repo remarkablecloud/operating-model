@@ -20,19 +20,9 @@ The operating model is the set of habits that fixed each of these for us. Every 
 
 ## How it works
 
-Three roles, in order. Each hands the next something written down.
+Three roles, in order. Each hands the next something written down, and a shared memory keeps every session in the loop.
 
-```mermaid
-flowchart LR
-    F([Founder]) -->|idea| D[Designer<br/>design session in chat]
-    D -->|design package| A[Architect<br/>one agent per project]
-    A -->|cards with briefs| C[Coders<br/>one card each]
-    C -->|pull request and close-out| A
-    A -->|decisions in four parts,<br/>morning report| F
-    C -.->|what they learned| M[(Project memory)]
-    M -.-> C
-    A -.->|weekly retro| M
-```
+![The operating model workflow: the founder sets goals and answers decisions; the Designer produces a design package; the Architect runs the board and decides alone only within three tests; Coder agents build one card each; every change is tested, reviewed and released on a train; all phases read and write a shared memory](assets/operating-model-workflow.png)
 
 1. **The Designer** is Claude in an ordinary chat with the founder, before any code exists. Its job is to disagree: it challenges the idea, researches how others solved it, prices the work, draws the mockups and the user journey, and walks a checklist until nothing is left to guess. The output is a design package. See `design/DESIGN-PHASE.md`.
 2. **The Architect** is one agent per project. It turns the package into a repository, a decision log, and a board of cards with dependencies and estimates. Then it runs the project: it writes a brief for each card, starts Coders, reviews and merges their work, ships releases, and brings the founder only what is the founder's to decide. It never writes product code. See `KICKOFF.md` and `OPERATING-MODEL.md`.
